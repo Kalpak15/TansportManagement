@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Drivers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Available Drivers</h1>
+
+    <!-- Display message if any -->
+    {% if message %}
+        <div class="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    <div class="driver-list">
+        {% for driver in drivers %}
+        <div class="driver-card" id="driver-{{ driver.id }}">
+           <img src="{{ url_for('static', filename='assets/img/Driver.png') }}" alt="{{ driver.name }}" class="driver-image">
+            <h3>{{ driver.name }}</h3>
+            <p>Price per day: {{ driver.price_per_day }}</p>
+            <form action="{{ url_for('book_driver') }}" method="POST">
+                <input type="hidden" name="driver_id" value="{{ driver.id }}">
+                <button type="submit" class="book-button">Book</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+
+
+
+
+    <style>
+        /* Basic styling for the driver list */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .alert {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .driver-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .driver-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .driver-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .book-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .book-button:hover {
+            background-color: #218838;
+        }
+    </style>
+</body>
+</html>

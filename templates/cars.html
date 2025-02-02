@@ -1,0 +1,166 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Vehicles</title>-->
+<!--    <link rel="stylesheet" href="{{url_for('static',filename="css/cars.css")}}">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container">-->
+<!--         {% for car in cars %}-->
+<!--        <div class="vehicle">-->
+<!--            <img src="{{url_for('static',filename=car.image_url)}}" alt="Car 1">-->
+<!--            <div class="details">-->
+<!--                <p>Name: {{ car.name }}</p>-->
+<!--                <p>Price: ${{ car.price }}</p>-->
+<!--                <p>Speed: {{ car.speed }} mph</p>-->
+<!--                <p>Seats: {{ car.seats }}</p>-->
+<!--            </div>-->
+<!--            <form action="{{ url_for('book_car') }}" method="POST">-->
+<!--                <input type="hidden" name="car_id" value="{{ car.id }}">  &lt;!&ndash; Unique car ID &ndash;&gt;-->
+<!--                <button type="submit" class="book-button">Book</button>-->
+<!--                <button type="submit" class="book-button">Cancle</button>-->
+<!--            </form>-->
+
+<!--            {% if message %}-->
+<!--                <div class="alert alert-warning">-->
+<!--                    {{ message }}-->
+<!--                </div>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--     {% endfor %}-->
+<!--    </div>-->
+<!--    <div class="button-container">-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+
+<!--//corrected-- >
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Vehicles</title>-->
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='css/cars.css') }}">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container">-->
+<!--        {% for car in cars %}-->
+<!--        <div class="vehicle">-->
+<!--            <img src="{{ url_for('static', filename=car.image_url) }}" alt="Car">-->
+<!--            <div class="details">-->
+<!--                <p>Name: {{ car.name }}</p>-->
+<!--                <p>Price: ${{ car.price }}</p>-->
+<!--                <p>Speed: {{ car.speed }} mph</p>-->
+<!--                <p>Seats: {{ car.seats }}</p>-->
+<!--            </div>-->
+<!--            <form action="{{ url_for('book_car') }}" method="POST">-->
+<!--                <input type="hidden" name="car_id" value="{{ car.id }}">  &lt;!&ndash; Unique car ID &ndash;&gt;-->
+<!--                <button type="submit" class="book-button">Book</button>-->
+<!--            </form>-->
+
+<!--            <form action="{{ url_for('cancel_booking') }}" method="POST">-->
+<!--                <input type="hidden" name="car_id" value="{{ car.id }}">  &lt;!&ndash; Unique car ID &ndash;&gt;-->
+<!--                <button type="submit" class="book-button">Cancel</button>-->
+<!--            </form>-->
+
+<!--            {% if message %}-->
+<!--                <div class="alert alert-warning">-->
+<!--                    {{ message }}-->
+<!--                </div>-->
+<!--            {% endif %}-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--    </div>-->
+<!--    <div class="button-container">-->
+<!--    </div>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicles</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cars.css') }}">
+</head>
+<body>
+    <div class="container">
+        {% for car in cars %}
+        <div class="vehicle">
+            <img src="{{ url_for('static', filename=car.image_url) }}" alt="{{ car.name }}">
+            <div class="details">
+                <p>Name: {{ car.name }}</p>
+                <p>Price: ${{ car.price }}</p>
+                <p>Speed: {{ car.speed }} mph</p>
+                <p>Seats: {{ car.seats }}</p>
+            </div>
+            <!-- cars.html -->
+
+           <!-- cars.html -->
+<!--            corrected-1-->
+<!--            <form id="booking-form" method="POST" action="/book_car">-->
+<!--                <input type="hidden" name="car_id" value="{{ car.id }}">-->
+<!--                <input type="hidden" name="from_date" value="0"> &lt;!&ndash; Default temporary value &ndash;&gt;-->
+<!--                <input type="hidden" name="to_date" value="0">   &lt;!&ndash; Default temporary value &ndash;&gt;-->
+<!--                <button type="submit" id="book-button">Book</button>-->
+<!--            </form>-->
+            <!-- Example of book button in cars.html -->
+
+            <form action="{{ url_for('book_car') }}" method="POST">
+                <input type="hidden" name="car_id" value="{{ car.id }}">
+                <button type="submit">Book</button>
+            </form>
+
+
+
+            <form action="{{ url_for('cancel_booking') }}" method="POST">
+                <input type="hidden" name="car_id" value="{{ car.id }}">
+                <button type="submit">Cancel Booking</button>
+            </form>
+
+
+        </div>
+        {% endfor %}
+    </div>
+  <!-- In your base template or at the top of cars.html -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+
+
+
+<script>
+    document.getElementById('book-button').addEventListener('click', function() {
+        const form = document.getElementById('booking-form');
+
+        // Optionally add from_date and to_date if needed
+        const fromDate = document.createElement('input');
+        const toDate = document.createElement('input');
+        fromDate.type = 'hidden';
+        toDate.type = 'hidden';
+        fromDate.name = 'from_date';
+        toDate.name = 'to_date';
+        fromDate.value = '0';  // Temporary value or gather actual dates from input fields
+        toDate.value = '0';     // Temporary value or gather actual dates from input fields
+
+        form.appendChild(fromDate);
+        form.appendChild(toDate);
+
+        form.submit();  // Submit the form to the Flask route
+    });
+</script>
+
+</body>
+</html>
