@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 import MySQLdb
 from datetime import datetime
 "rakshit"
+"kalpak"
 app=Flask(__name__)
 app.secret_key="xac"
 app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql://root:@localhost/college'
